@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package platform;
+
+service PlatformService {
+  rpc EventStream(stream EventRequest) returns (stream EventResponse) {}
+}
+
+enum EventType {
+  ACKNOWLEDGE = 0;
+}
+
+enum EventStatus {
+  PENDING = 0;
+  WAITING = 1;
+  PROCESSING = 2;
+  SUCCESS = 3;
+  FAILED = 4;
+}
+
+message EventRequest {
+  string id = 1;
+  EventType type = 2;
+  bytes payload = 3;
+}
+
+message EventResponse {
+  string id = 1;
+  EventType type = 2;
+  EventStatus status = 3;
+  bytes response = 4;
+}
